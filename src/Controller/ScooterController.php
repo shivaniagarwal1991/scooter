@@ -55,7 +55,7 @@ class ScooterController extends AbstractController
         $requestParam = $request->query->all();
         $this->hasValidSearchParams($requestParam);
 
-        $response = $this->scooterService->searchScooter($requestParam['lat'], $requestParam['lng'], $requestParam['userUuid']);
+        $response = $this->scooterService->searchScooter($requestParam);
 
         if($response['count'] != 0) {
             return new JsonResponse(['status_code' => 200, 'data' => $response]);

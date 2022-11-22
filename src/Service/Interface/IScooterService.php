@@ -11,12 +11,10 @@ interface IScooterService
     public function addScooter(array $data): string;
 
     /**
-     * @param string $startLat
-     * @param string $startLng
-     * @param string $userUuid
+     * @param array $requestParam
      * @return array
      */
-    public function searchScooter(string $startLat, string $startLng, string $userUuid): array;
+    public function searchScooter(array $requestParam): array;
 
     /**
      * @param array $data

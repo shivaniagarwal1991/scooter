@@ -3,6 +3,7 @@
 namespace App\Validator;
 
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 trait ValidateRequestHeader
 {
@@ -13,21 +14,12 @@ trait ValidateRequestHeader
     protected function hasValidRequestHeader(string|null $xApiKey): void
     {
         if(empty($xApiKey)) {
-            $this->throwError('Expecting header parameter `x-api-key`.');
+            throw new BadRequestHttpException('Expecting header parameter `x-api-key`.');
         }
 
         if($xApiKey != $this->getParameter('x_api_key')) {
-            $this->throwError('Expecting valid header parameter `x-api-key` value.');
+            throw new UnauthorizedHttpException('Expecting valid header parameter `x-api-key` value.');
         }
-    }
-
-    /**
-     * @param string $message
-     * @return void
-     */
-    private function throwError(string $message): void
-    {
-        throw new BadRequestHttpException($message);
     }
 
 }

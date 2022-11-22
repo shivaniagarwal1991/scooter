@@ -16,7 +16,7 @@ trait ValidateRequestParams
      */
     protected function hasValidSearchParams(array $params): void
     {
-        $msg = "Expecting mandatory and valid body parameters lat, lng, and userUuid";
+        $msg = "Expecting mandatory and valid query parameters lat, lng, and userUuid";
         if (count($params)) {
             if (empty($params['lat']) || empty($params['lng']) || empty($params['userUuid'])) {
                 $this->throwRequestError($msg);

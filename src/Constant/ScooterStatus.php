@@ -10,15 +10,15 @@ class ScooterStatus
 
     /**
      * @param int $key
-     * @return string
+     * @return string|array
      */
-    static function getStatus(int $key = 1): string
+    static function getStatus(int $key = 0): string|array
     {
         $status = [
             1 => ScooterStatus::STATUS_AVAILABLE,
             2 => ScooterStatus::STATUS_OCCUPIED,
             3 => ScooterStatus::STATUS_OUT_OF_SERVICE,
         ];
-        return $status[$key];
+        return ($key == 0)? $status : $status[$key];
     }
 }

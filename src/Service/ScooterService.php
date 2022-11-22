@@ -26,13 +26,28 @@ class ScooterService implements IScooterService
      * @param string $userUuid
      * @return array
      */
-    public function searchScooter(string $startLat, string $startLng, string $userUuid): array
+    public function searchScooter(array $requestParam): array
     {
+        $startLat = $requestParam['lat'];
+        $startLng = $requestParam['lng'];
+        $status = ScooterEntity::STATUS_AVAILABLE;
+
+        if(!empty($requestParam['status'])) {
+            $getStatus = strtolower($requestParam['status']);
+            $statusArray = ScooterStatus::getStatus();
+            foreach ($statusArray as $key => $val) {
+                if (strtolower($val) == $getStatus) {
+                    $status = $key;
+                    break;
+                }
+            }
+        }
+
         $extendLatRang = (int) $startLat + Contract::EXPEND_LAT;
         $extendLngRang = (int) $startLng + Contract::EXPEND_LNG;
 
         /*Fetch scooter based on geographically rectangular*/
-        $scooters = $this->scooterRepository->findByLatLong((int) $startLat , (int) $startLng, $extendLatRang, $extendLngRang);
+        $scooters = $this->scooterRepository->findByLatLong((int) $startLat , (int) $startLng, $extendLatRang, $extendLngRang, $status);
         return [
             'count' => count($scooters),
             'scooter'=> $this->formatScooterObject($scooters)

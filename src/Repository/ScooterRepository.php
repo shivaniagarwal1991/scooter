@@ -39,10 +39,10 @@ class ScooterRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByLatLong(int $startLat, int $startLng, int $endLat, int $endLng): ?array
+    public function findByLatLong(int $startLat, int $startLng, int $endLat, int $endLng, int $status = Scooter::STATUS_AVAILABLE): ?array
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.status != '. Scooter::STATUS_OCCUPIED)
+            ->andWhere('s.status = '. $status)
             ->andWhere('s.current_lat BETWEEN :startLat AND :endLat')
             ->andWhere('s.current_lng BETWEEN :startLng AND :endLng')
             ->setParameter('startLat', $startLat)
